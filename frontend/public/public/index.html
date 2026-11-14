@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Cloud - Nginx + Node</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="tarjeta">
+        <h2>Gestor de Notas Cloud</h2>
+        <p class="subtitulo">Nginx Reverse Proxy ➔ Node.js API (GET, POST, DELETE)</p>
+
+        <input type="text" id="inputCurso" placeholder="Nombre del curso">
+        <div class="fila">
+            <input type="number" id="inputNota1" placeholder="Parcial 1">
+            <input type="number" id="inputNota2" placeholder="Parcial 2">
+        </div>
+
+        <button id="btnGuardar">Calcular y Guardar (POST)</button>
+
+        <h3>Historial en el Servidor (GET)</h3>
+        <div id="listaCursos"></div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

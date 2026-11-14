@@ -1,0 +1,24 @@
+services:
+  # Contenedor 2: La Cocina (Oculta al público)
+  backend-node:
+    build: ./backend
+    container_name: cocina-node
+    # ¡MIRA ESTO! No ponemos "ports: - 3000:3000". 
+    # Así nadie desde afuera puede atacar la API directo, solo Nginx puede hablarle.
+    networks:
+      - red-interna
+
+  # Contenedor 1: El Salón y Guardia de Puerta
+  frontend-nginx:
+    build: ./frontend/public
+    container_name: salon-nginx
+    ports:
+      - "8080:80" # Abierto a tu navegador en Windows por el puerto 8080
+    depends_on:
+      - backend-node
+    networks:
+      - red-interna
+
+networks:
+  red-interna:
+    driver: bridge
