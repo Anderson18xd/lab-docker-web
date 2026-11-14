@@ -1,12 +1,15 @@
 const listaCursos = document.getElementById('listaCursos');
 const btnGuardar = document.getElementById('btnGuardar');
 
-// 1. FUNCIÓN GET: Pide las notas guardadas en el contenedor Backend y las dibuja
+// La dirección exacta de tu Cocina en AWS EC2
+const API_URL = 'http://54.209.251.94:3000/api/notas';
+
+// 1. FUNCIÓN GET
 async function cargarNotas() {
-    const respuesta = await fetch('/api/notas'); // Nginx redirige esto a backend-node:3000
+    const respuesta = await fetch(API_URL);
     const notas = await respuesta.json();
 
-    listaCursos.innerHTML = ''; // Limpiamos la lista antes de redibujar
+    listaCursos.innerHTML = '';
 
     notas.forEach(item => {
         const div = document.createElement('div');
@@ -19,32 +22,30 @@ async function cargarNotas() {
     });
 }
 
-// 2. FUNCIÓN POST: Envía una nueva nota cuando haces clic en el botón azul
+// 2. FUNCIÓN POST
 btnGuardar.addEventListener('click', async () => {
     const curso = document.getElementById('inputCurso').value;
     const nota1 = document.getElementById('inputNota1').value;
     const nota2 = document.getElementById('inputNota2').value;
 
-    await fetch('/api/notas', {
+    await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ curso, nota1, nota2 })
     });
 
-    // Limpiamos los cuadritos y recargamos la lista con GET
     document.getElementById('inputCurso').value = '';
     document.getElementById('inputNota1').value = '';
     document.getElementById('inputNota2').value = '';
     cargarNotas();
 });
 
-// 3. FUNCIÓN DELETE: Borra una nota específica cuando aprietas "Eliminar"
+// 3. FUNCIÓN DELETE
 async function borrarNota(id) {
-    await fetch(`/api/notas/${id}`, {
+    await fetch(`${API_URL}/${id}`, {
         method: 'DELETE'
     });
-    cargarNotas(); // Volvemos a pedir la lista actualizada
+    cargarNotas();
 }
 
-// Apenas se abre la página por primera vez, ejecutamos el GET inicial
 cargarNotas();
